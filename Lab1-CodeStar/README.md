@@ -14,7 +14,7 @@ What we are building to is a Lambda Function with API Gateway.  We will be using
 1. Log in to your AWS Account using your IAM user.
 2. Go to CodeStar and click create a new project.  On the left bar filter the project  with Web Application, Node.js and AWSLambda for Application category, Programming languages and AWS service. 
 
-[img](../images/codestar1.png)
+![img](../images/codestar1.png)
 
 3. Enter the project details:
 
@@ -23,21 +23,21 @@ Which repository do you want to use? AWS CodeCommit.
 
 Click Next.
 
-[img](../images/codestar2.png)
+![img](../images/codestar2.png)
 
 Review the project details and click create a project.
 
-[img](../images/codestar3.png)
+![img](../images/codestar3.png)
 
 4. Pick the IDE and today we will be using AWS Cloud 9.
 
-[img](../images/codestar4.png)
+![img](../images/codestar4.png)
 
 Select t2.micro for FREE TIER.  It takes a few minutes to provision a Cloud9 Instance.
 
 5. Navigate to your newly created project in CodeStar and locate the Application endpoint. 
 
-[img](../images/codestar5.png)
+![img](../images/codestar5.png)
 
 Click the enpdpoint and you should see the new Node.js web application that we just created.
 
