@@ -45,6 +45,43 @@ Click the enpdpoint and you should see the new Node.js web application that we j
 
 5. In CodeStar, click IDE on the left side. Click serverless-lab Cloud9 environment. It takes a few minute to star the IDE.
 
+Now we are going to add a new API to compute "add" operation.
+
+7. Add a new file called add.js in serverless-lab folder.  Add the follwing nodejs code.
+
+```
+'use strict';
+
+function add(x, y) { 
+
+    // test cases
+    // x = 1 and y = 2 should return 3
+
+    // implement here
+    // ...
+    // return ...
+    
+    throw new Error('Not Implemented');
+}
+
+exports.handler = function(event, context, cb) {
+    
+    var x = event["x"], y = event["y"];
+    
+    var result = add(x,y);
+   
+    cb(null, { 
+        statusCode: 200, 
+        body: JSON.stringify({'result' : result }),
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+    })
+};
+
+```
+
 6. On the left side, open template.yml.  Add the code below under Resources section.
 
 ```
