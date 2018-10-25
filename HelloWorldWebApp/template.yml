@@ -71,7 +71,7 @@ Mappings:
       Arch: HVM64    
   AWSRegionArch2AMI:
     us-east-1:
-      HVM64: ami-0ff8a91507f77f867
+      HVM64: ami-0922553b7b0369273
       HVMG2: ami-0a584ac55a7631c0c
     us-west-2:
       HVM64: ami-a0cfeed8
@@ -573,6 +573,28 @@ Resources:
                 #!/bin/bash -xe
               - |
                 yum update -y aws-cfn-bootstrap
+              - |
+                yum install aws-cli -y
+              - |
+                yum install -y git
+              - |
+                yum install -y ruby
+              - |
+                yum install -y wget
+              - |                              
+                cd /home/ec2-user/
+              - 'wget https://aws-codedeploy-'
+              - !Ref 'AWS::Region'
+              - |
+                .s3.amazonaws.com/latest/install
+              - |
+                chmod +x ./install
+              - |  
+                ./install auto
+              - |
+                service codedeploy-agent start
+              - |+
+
               - '/opt/aws/bin/cfn-init -v '
               - '         --stack '
               - Ref: 'AWS::StackName'
@@ -589,22 +611,6 @@ Resources:
               - Ref: 'AWS::Region'
               - |+
 
-              - |
-                yum install -y aws-cli
-              - |
-                yum install -y git
-              - |
-                cd /home/ec2-user/
-              - 'wget https://aws-codedeploy-'
-              - !Ref 'AWS::Region'
-              - |
-                .s3.amazonaws.com/latest/codedeploy-agent.noarch.rpm
-              - |
-                yum -y install codedeploy-agent.noarch.rpm
-              - |
-                service codedeploy-agent start
-              - |+
-            
       SecurityGroups: 
         - Ref: "InstanceSecurityGroup"
       InstanceType: t2.small
