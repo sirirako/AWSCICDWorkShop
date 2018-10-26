@@ -71,7 +71,7 @@ Mappings:
       Arch: HVM64    
   AWSRegionArch2AMI:
     us-east-1:
-      HVM64: ami-0922553b7b0369273
+      HVM64: ami-0ff8a91507f77f867
       HVMG2: ami-0a584ac55a7631c0c
     us-west-2:
       HVM64: ami-0303c7b2e7066b60d
@@ -604,13 +604,9 @@ Resources:
                 service codedeploy-agent start
               - |
                 # making the website
-                mkdir /home/ec2-user/node-website
+                aws s3 cp s3://siri-temp-bucket/node-website.zip .
               - |
-                cd /home/ec2-user/node-website
-              - |
-                aws s3 cp s3://eas-cicd-useast2/Dev314Build.zip .
-              - |
-                unzip Dev314Build.zip
+                unzip node-website.zip
               - |
                 curl -sL https://rpm.nodesource.com/setup_8.x | bash -
               - |
@@ -620,6 +616,8 @@ Resources:
               - |
                 export PORT=80
               - |
+                cd /home/ec2-user/node-website
+              - |              
                 forever start app.js
               - |+
               - '/opt/aws/bin/cfn-init -v '
@@ -637,10 +635,6 @@ Resources:
               - '         --region '
               - Ref: 'AWS::Region'
               - |+
-<<<<<<< HEAD
-
-=======
->>>>>>> 7f41d533c191253277e5ad78339d376272d1be4c
       SecurityGroups: 
         - Ref: "InstanceSecurityGroup"
       InstanceType: t2.small
