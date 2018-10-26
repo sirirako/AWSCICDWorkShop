@@ -74,7 +74,7 @@ Mappings:
       HVM64: ami-0922553b7b0369273
       HVMG2: ami-0a584ac55a7631c0c
     us-west-2:
-      HVM64: ami-a0cfeed8
+      HVM64: ami-0303c7b2e7066b60d
       HVMG2: ami-0e09505bc235aa82d
     us-west-1:
       HVM64: ami-0bdb828fd58c52235
@@ -404,6 +404,7 @@ Resources:
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/AWSCodeDeployReadOnlyAccess'
         - 'arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess'
+        - 'arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess'
       Path: /
   WebAppRolePolicies:
     Type: 'AWS::IAM::Policy'
@@ -463,7 +464,11 @@ Resources:
       MaxSize: '2'
       TargetGroupARNs:
       - Ref: ALBTargetGroup
-      DesiredCapacity: '2'           
+      DesiredCapacity: '2'
+      Tags:
+      - Key: Name
+        Value: BlueGreenWebHost
+        PropagateAtLaunch: 'true'           
     CreationPolicy:
       ResourceSignal:
         Timeout: PT15M
@@ -551,7 +556,6 @@ Resources:
                   - /etc/cfn/cfn-hup.conf
                   - /etc/cfn/hooks.d/cfn-auto-reloader.conf    
     Properties: 
-      KeyName: "Key1"
       IamInstanceProfile: 
         Ref: WebAppInstanceProfile      
       ImageId: 
@@ -572,13 +576,18 @@ Resources:
             - - |
                 #!/bin/bash -xe
               - |
-                yum update -y aws-cfn-bootstrap
-              - |
-                yum install aws-cli -y
-              - |
                 yum install -y git
               - |
                 yum install -y ruby
+              - |
+                yum update -y aws-cfn-bootstrap
+              - |
+                # Install pip and python dev libraries.
+                yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+              - | 
+                yum install -y python27-devel python27-pip gcc
+              - |
+                yum install -y python-pip
               - |
                 yum install -y wget
               - |                              
@@ -593,8 +602,26 @@ Resources:
                 ./install auto
               - |
                 service codedeploy-agent start
+              - |
+                # making the website
+                mkdir /home/ec2-user/node-website
+              - |
+                cd /home/ec2-user/node-website
+              - |
+                aws s3 cp s3://eas-cicd-useast2/Dev314Build.zip .
+              - |
+                unzip Dev314Build.zip
+              - |
+                curl -sL https://rpm.nodesource.com/setup_8.x | bash -
+              - |
+                yum install -y nodejs
+              - |
+                npm install forever -g
+              - |
+                export PORT=80
+              - |
+                forever start app.js
               - |+
-
               - '/opt/aws/bin/cfn-init -v '
               - '         --stack '
               - Ref: 'AWS::StackName'
@@ -610,7 +637,10 @@ Resources:
               - '         --region '
               - Ref: 'AWS::Region'
               - |+
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7f41d533c191253277e5ad78339d376272d1be4c
       SecurityGroups: 
         - Ref: "InstanceSecurityGroup"
       InstanceType: t2.small
