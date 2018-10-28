@@ -425,24 +425,6 @@ Resources:
               - 'autoscaling:SuspendProcesses'
               - 'autoscaling:ResumeProcesses'
             Resource: '*'
-          - Effect: Allow
-            Action:
-              - 'ec2:DescribeInstances'
-              - 'ec2:DescribeInstanceStatus'
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - 's3:Get*'
-              - 's3:List*'
-            Resource:
-              - 'Fn::Join':
-                - ''
-                - - 'arn:aws:s3:::'
-                  - '*'
-              - 'Fn::Join':
-                - ''
-                - - 'arn:aws:s3:::codepipeline-'
-                  - '*'
       Roles:
         - Ref: WebAppRole
   WebAppInstanceProfile:
@@ -454,7 +436,7 @@ Resources:
   WebServerGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'    
     Properties:
-      AutoScalingGroupName: NodeHelloWorld-group
+      AutoScalingGroupName: BlueGreenASGroup
       VPCZoneIdentifier:
         - Ref: PrivateSubnet01
         - Ref: PrivateSubnet02
@@ -604,9 +586,13 @@ Resources:
                 service codedeploy-agent start
               - |
                 # making the website
-                aws s3 cp s3://siri-temp-bucket/node-website.zip .
+                mkdir /home/ec2-user/node-website
               - |
-                unzip node-website.zip
+                cd /home/ec2-user/node-website
+              - |                  
+                aws s3 cp s3://siri-temp-bucket/dev314.zip .
+              - |
+                unzip dev314.zip
               - |
                 curl -sL https://rpm.nodesource.com/setup_8.x | bash -
               - |
@@ -615,8 +601,6 @@ Resources:
                 npm install forever -g
               - |
                 export PORT=80
-              - |
-                cd /home/ec2-user/node-website
               - |              
                 forever start app.js
               - |+
@@ -647,6 +631,10 @@ Resources:
         - Ref: PublicSubnet02
       SecurityGroups:
         - Fn::GetAtt: LoadBalancerSecurityGroup.GroupId
+      Tags:
+      - Key: Name
+        Value: 
+          Fn::Sub: ${AWS::StackName}-ALB        
   ALBListener:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
     Properties:
@@ -661,7 +649,7 @@ Resources:
   ALBTargetGroup:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
-      Name: 'NodeHelloWorld-target'
+      Name: 'BlueGreenTG'
       HealthCheckIntervalSeconds: 30
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 3
@@ -670,6 +658,10 @@ Resources:
       UnhealthyThresholdCount: 5
       VpcId:
         Ref: VPC
+      Tags:
+      - Key: Name
+        Value: 
+          Fn::Sub: ${AWS::StackName}-TG         
   LoadBalancerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
