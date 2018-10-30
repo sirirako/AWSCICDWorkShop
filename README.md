@@ -1,7 +1,8 @@
 # CICD with CodePipeline and Blue Green Deployment
 
-Explain what is blue Green deployment.
-What we will be doing in the lab.
+- Explain what is blue Green deployment.
+- Diagram
+- What we will be doing in the lab.
 
 
 
