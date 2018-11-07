@@ -71,6 +71,20 @@ user:~/environment/BlueGreenEnvironment/ $ git push
 ```
 ![Project](./images/bg-4.png)
 
+**_💡 Tip_** After you have pushed files to your AWS CodeCommit repository, you can use the AWS CodeCommit console to view the contents. For more information, see [Browse the Contents of a Repository](http://docs.aws.amazon.com/codecommit/latest/userguide/how-to-browse.html).
+
+## Create Infrastructure
+
+In this step, we will be using CloudFormation template to create infrstructure used for this lab.  Review template.yml.
+
+1. In Cloud9, create CloudFormation stack by running this command.
+
+```console
+user:~/environment/BlueGreenEnvironment/ $ aws cloudformation create-stack --stack-name BlueGreenEnvironment --template-body file://template.yml --capabilities CAPABILITY_IAM
+```
+
+
+
 ## Clean up Instruction
 
 1. Go to EC2 Console and navigate to Auto Scaling Groups. Select CodeDeploy_dev314_d-XXXXXXXXX, click Actions and select Delete.
