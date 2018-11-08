@@ -92,25 +92,36 @@ AWS CodeBuild is a fully managed continuous integration service that compiles so
 
 1. Go to CodeBuild Console and click Create build project. Enter your build project information.
 
-**Project configuration**
-Project Name: BlueGreenWebAppBuild
-Description: NodeJS WebApp build
-**Source**
-    Source provider: AWS CodeCommit
-    Repository: BlueGreenWebApp   Note: this is your source reporsitory that you have created earlier.
-**Environment**   Note: In this step, we configure the build environment.
-    Managed image
-    Operating system: Ubuntu
-    Runtime: Node.js
-    Runtime version: aws/codebuild/nodejs:10.1.0
-    Image version: Always use the latest image for this runtime version
-    Service role: New service role
-    Role name: codebuild-BlueGreenWebAppBuild-service-role  (Automatically filled)
-**Buildspec**
-    Build specifications
-        Use a buildspec file
-        Buildspec name: empty   Note: We will be using buildspec.yml which is in the project. Because we are using defualt name, we can leave this field empty.
-**Artifacts**
+### Project configuration
+
+**Project Name:** BlueGreenWebAppBuild
+**Description:** NodeJS WebApp build
+
+### Source
+
+**Source provider:** AWS CodeCommit
+Repository: BlueGreenWebApp   Note: this is your source reporsitory that you have created earlier.
+
+### Environment
+
+In this step, we configure the build environment.
+
+**Environment image** Managed image
+**Operating system** Ubuntu
+**Runtime** Node.js
+**Runtime version** aws/codebuild/nodejs:10.1.0
+**Image version** Always use the latest image for this runtime version
+**Service role** New service role
+**Role name** codebuild-BlueGreenWebAppBuild-service-role  (Automatically filled)
+
+### Buildspec
+
+Build specifications
+Use a buildspec file
+Buildspec name: empty   Note: We will be using buildspec.yml which is in the project. Because we are using defualt name, we can leave this field empty.
+
+### Artifacts
+
     Type: Amazon S3  Note: We will store build output in S3 bucket.
     Bucket Name: build-artifact-bluegreenbucket-us-east-1   Note: This bucket was created with CloudFormation template.
     Name: BlueGreenWebAppBuild.zip
@@ -166,7 +177,9 @@ Click **Create deployment**
 
 4. Under the deployment, observe Deployment status.
 
-# Create CICD with CodePipeline
+![ALB](./images/bg-7.png)
+
+## Create CICD with CodePipeline
 
 AWS CodePipeline is a fully managed continuous delivery service that helps you automate your release pipelines for fast and reliable application and infrastructure updates. CodePipeline automates the build, test, and deploy phases of your release process every time there is a code change, based on the release model you define. This enables you to rapidly and reliably deliver features and updates. You can easily integrate AWS CodePipeline with third-party services such as GitHub or with your own custom plugin. With AWS CodePipeline, you only pay for what you use. There are no upfront fees or long-term commitments.
 
