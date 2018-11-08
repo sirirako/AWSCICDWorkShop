@@ -107,19 +107,13 @@ AWS CodeBuild is a fully managed continuous integration service that compiles so
 
 In this step, we configure the build environment.
 
-**Environment image:** Managed image
-
-**Operating system:** Ubuntu
-
-**Runtime:** Node.js
-
-**Runtime version:** aws/codebuild/nodejs:10.1.0
-
-**Image version:** Always use the latest image for this runtime version
-
-**Service role:** New service role
-
-**Role name:** codebuild-BlueGreenWebAppBuild-service-role  (Automatically filled)
+**Environment image:** Managed image  
+**Operating system:** Ubuntu  
+**Runtime:** Node.js  
+**Runtime version:** aws/codebuild/nodejs:10.1.0  
+**Image version:** Always use the latest image for this runtime version  
+**Service role:** New service role  
+**Role name:** codebuild-BlueGreenWebAppBuild-service-role  (Automatically filled)  
 
 ### Buildspec
 
