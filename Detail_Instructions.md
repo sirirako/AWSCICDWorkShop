@@ -92,17 +92,17 @@ AWS CodeBuild is a fully managed continuous integration service that compiles so
 
 1. Go to CodeBuild Console and click Create build project. Enter your build project information.
 
-### Project configuration
+**_Project configuration_**
 
-**Project Name:** BlueGreenWebAppBuild
+**Project Name:** BlueGreenWebAppBuild  
 **Description:** NodeJS WebApp build
 
-### Source
+**_Source_**
 
 **Source provider:** AWS CodeCommit  
 **Repository:** BlueGreenWebApp   _Note:_ this is your source reporsitory that you have created earlier.
 
-### Environment
+**_Environment_**
 
 In this step, we configure the build environment.
 
@@ -114,12 +114,12 @@ In this step, we configure the build environment.
 **Service role:** New service role  
 **Role name:** codebuild-BlueGreenWebAppBuild-service-role  (Automatically filled)  
 
-### Buildspec
+**_Buildspec_**
 
 **Build specifications:** Use a buildspec file  
 **Buildspec name:** empty   _Note:_ We will be using buildspec.yml which is in the project. Because we are using defualt name, we can leave this field empty.
 
-### Artifacts
+**_Artifacts_**
 
 **Type:** Amazon S3  Note: We will store build output in S3 bucket.  
 **Bucket Name:** build-artifact-bluegreenbucket-us-east-1   Note: This bucket was created with CloudFormation template.  
@@ -145,27 +145,27 @@ https://github.com/aws-samples/aws-codedeploy-samples/tree/master/load-balancing
 
 2. In your CodeDeploy Application, BlueGreenWebApp, on Deployment groups tab, click **Create Deployment group**. Configure the deployment as follow:
 
-### Deployment group name
+**_Deployment group name_**
 
 Enter a deployment group name: BlueGreenWebApp_DeploymentGroup
 Service role: BlueGreenEnvironment-DeployTrustRole-xxxxxxxx    Note: This role was created as a part of CloudFormation.
 
-### Deployment type
+**_Deployment type_**
 
 Choose how to deploy your application: Blue/green
 
-### Environment configuration
+**_Environment configuration_**
 
 **Specify the Amazon EC2 Auto Scaling groups or Amazon EC2 instances where the current application revision is deployed:** Automatically copy Amazon EC2 Auto Scaling group  
 **Choose the Amazon EC2 Auto Scaling group where the current application revision is deployed:** BlueGreenASGroup  _Note:_ This AS was created as a part of CloudFormation.
 
-### Deployment settings
+**_Deployment settings_**
 
 **Choose whether traffic reroutes to the replacement environment immediately or waits for you to start the rerouting process manually:** Reroute traffic immediately  
 **Choose whether instances in the original environment are terminated after the deployment is succeeds, and how long to wait before termination:** Terminate the original instances in the deployment group: 15 Minutes  
 **Deployment configuration:** CodeDeployDefault.AllAtOnce  
 
-### Load balancer
+**_Load balancer_**
 
 **Application Load Balancer or Network Load Balancer**
 **Choose a load balancer:** BlueGreenTG   _Note:_ This role was created as a part of CloudFormation.  
@@ -174,7 +174,7 @@ Click **Create deployment group**
 
 3. Under the deployment group, click **Create deployment**.  Configure the deployment as followed:
 
-### Deployment settings
+**_Deployment settings_**
 
 **Deployment group:** BlueGreenWebApp_DeploymentGroup  
 **Revision type:** My application is stored in Amazon S3  
@@ -202,29 +202,29 @@ You are going to configure a CodePipleline to use CodeBuild and CodeDeploy previ
 Enable **Allow AWS CodePipeline to create a service role so it can be used with this new pipeline**  
 **Artifact Store:** Default location  
 
-### Source
+**_Source_**
 
 **Source provider:** AWS CodeCommit
 
-### AWS CodeCommit
+**_AWS CodeCommit_**
 
 **Choose a repository:** BlueGreenWebApp  
 **Branch name:** master  
 **Change detection options:** Amazon CloudWatch Events(recommended)  
 
-### Build
+**_Build_**
 
 **Build provider:** AWS CodeBuild
 
-### AWS CodeBuild
+**_AWS CodeBuild_**
 
 **Project name:** BlueGreenWebAppBuild  
 
-### Deploy
+**_Deploy_**
 
 **Deploy provider:** AWS CodeDeploy  
 
-### AWS CodeDeploy
+**_AWS CodeDeploy_**
 
 **Application name:** BlueGreenWebApp  
 **Deployment group:** BlueGreenWebApp_DeploymentGroup  
