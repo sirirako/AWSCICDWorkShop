@@ -55,7 +55,7 @@ Your IDE environment should look like this.
 11. Stage your change by running **_git add_**. You can use **_git status_** to review the change.
 
 ```console
-user:~/environment/BlueGreenEnvironment/ $ git add *
+user:~/environment/BlueGreenEnvironment/ $ git add .
 user:~/environment/BlueGreenEnvironment/ $ git status
 ```
 
@@ -82,7 +82,7 @@ user:~/environment/BlueGreenEnvironment/ $ aws cloudformation create-stack --sta
 
 ![CloudFormation](./images/bg-5.png)
 
-2. Go to EC2 Console then review AutoScaling, Target Group and Load balancers that you just created.  Noted the DNS name of your ALB and browse it in your browser.
+2. Go to EC2 Console then review AutoScaling, Target Group and Load balancers that you just created.  Note the DNS name of your ALB and browse it in your favorite browser.
 
 ![ALB](./images/bg-6.png)
 
@@ -147,8 +147,8 @@ https://github.com/aws-samples/aws-codedeploy-samples/tree/master/load-balancing
 
 **_Deployment group name_**
 
-Enter a deployment group name: BlueGreenWebApp_DeploymentGroup
-Service role: BlueGreenEnvironment-DeployTrustRole-xxxxxxxx    Note: This role was created as a part of CloudFormation.
+**Enter a deployment group name:** BlueGreenWebApp_DeploymentGroup
+**Service role:** BlueGreenEnvironment-DeployTrustRole-xxxxxxxx    Note: This role was created as a part of CloudFormation.
 
 **_Deployment type_**
 
@@ -162,7 +162,7 @@ Choose how to deploy your application: Blue/green
 **_Deployment settings_**
 
 **Choose whether traffic reroutes to the replacement environment immediately or waits for you to start the rerouting process manually:** Reroute traffic immediately  
-**Choose whether instances in the original environment are terminated after the deployment is succeeds, and how long to wait before termination:** Terminate the original instances in the deployment group: 15 Minutes  
+**Choose whether instances in the original environment are terminated after the deployment is succeeds, and how long to wait before termination:** Terminate the original instances in the deployment group: 5 Minutes  
 **Deployment configuration:** CodeDeployDefault.AllAtOnce  
 
 **_Load balancer_**
@@ -236,12 +236,35 @@ Click **Next** and **Create pipeline**.
 ## Deploy your new code
 
 1. Go back to your Cloud9 IDE.
+2. Navigate to BlueGreenWebApp and public folder. Open index.html.
+3. Make a change to the file and save.
 
+```html
+        <div class="message">
+            <a class="twitter-link" href="http://twitter.com/home/?status=I%20created%20a%20project%20with%20AWS%20CodeStar!%20%23AWS%20%23AWSCodeStar%20https%3A%2F%2Faws.amazon.com%2Fcodestar"><img src="img/tweet.svg" /></a>
+            <div class="text">
+                <h1>Congratulations!</h1>
+                <h2>You just created a Node.js web application V3 from re:invent!</h2>
+            </div>
+        </div>
+```
 
+4. Commit the change and push to the remote repository.
 
+```console
+user:~/environment/BlueGreenEnvironment/ $ git add .
+user:~/environment/BlueGreenEnvironment/ $ git commit -m "Changes from re:invent"
+user:~/environment/BlueGreenEnvironment/ $ git push
+```
+
+5. Go back to CodePipeline Console and observe the progress.
+6. Once completed, browse to your ALB endpoint.
+
+**Congratulations! You have completed the lab.**
 
 # Clean up Instruction
 
 1. Go to EC2 Console and navigate to Auto Scaling Groups. Select CodeDeploy_dev314_d-XXXXXXXXX, click Actions and select Delete.
 2. Go to CloudFormation console, select bgcicd or the stackname that you created. Click Actions and select Delete Stack.
 3. Go to CodeBuild, CodeDeploy and CodePipeline console.  Delete the resource that you have created.
+4. Go to IAM Console and delete CodeDeploy role, CodePipeline roles and CodePipeline Policies. Search for BuleGreenWebApp.
