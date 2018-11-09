@@ -262,7 +262,7 @@ user:~/environment/BlueGreenEnvironment/ $ git push
 
 **Congratulations! You have completed the lab.**
 
-# Clean up Instruction
+## Clean up Instruction
 
 1. Go to EC2 Console and navigate to Auto Scaling Groups. Select CodeDeploy_dev314_d-XXXXXXXXX, click Actions and select Delete.
 2. Go to CloudFormation console, select bgcicd or the stackname that you created. Click Actions and select Delete Stack.
