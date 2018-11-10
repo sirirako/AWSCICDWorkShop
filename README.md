@@ -6,7 +6,7 @@ This technique can reduce the downtime and risks. If there is unexpected issues 
 
 ## What we will be doing in this lab
 
-![ALB](./images/bg-9.png)
+![ALB](./images/bg-10.png)
 
 
 
