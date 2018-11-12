@@ -19,6 +19,15 @@ Note: For this lab you will need to use an IAM user and not a federated user acc
 
 We will be using Cloud9 IDE for our development. 
 
+## Create Code Commit Credentials
+
+1. Choose an IAM user with sufficient privileges.  For simplicity, you can assign full permisssion to this or a new IAM user.
+2. On the user details page in IAM console, choose the **Security Credentials** tab, and in **HTTPS Git credentials for AWS CodeCommit**, choose **Generate**. 
+
+![HTTPS Git Credential](./images/codecommit-iam-gc1.png)
+
+Note: Make Note of the Git HTTP credentials handy. It will be used for cloning and pushing changes to Repo. Also, You can find detail instruction on how to configure HTTPS Git Credential [here](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html)
+
 ## Create an AWS CodeCommit Repository
 
 1. Open the AWS CodeCommit console at <https://console.aws.amazon.com/codecommit>.
