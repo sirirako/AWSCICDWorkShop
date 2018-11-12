@@ -696,6 +696,8 @@ Resources:
           - - build-artifact-bluegreenbucket
             - '-'          
             - Ref: 'AWS::Region'
+            - '-'
+            - Ref: 'AWS::AccountId'
 
       VersioningConfiguration:
         Status: Enabled
